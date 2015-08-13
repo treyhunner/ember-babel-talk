@@ -52,33 +52,690 @@
         </section>
 
         <section data-transition="fade-in slide-out">
-          <h2>Lorem ipsum dolor</h2>
-          <p>
-          <pre class="python"><code data-trim>
-let codeSample = `something`;
-          </code></pre>
-          </p>
+          <h2>ECMAScript History</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Edition</th>
+                <th>Release Date</th>
+                <th>Browser Support</th>
+                <th>a.k.a.</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>3</td>
+              <td>Dec. 1999</td>
+              <td>All</td>
+              <td>ES3</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Dec. 2009</td>
+              <td>IE 9, FF 4, Chrome 7</td>
+              <td>ES5</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>June 2015</td>
+              <td>Not supported yet</td>
+              <td>ES2015</td>
+            </tr>
+            </tbody>
+          </table>
           <aside class="notes" data-markdown>
-            Say something here.
+            First, some terminology.
+
+            ECMAScript is the language specification that JavaScript is based on.
+
+            ECMAScript 6 is the new version that was finalized last month.
+
+            Earlier this year, ECMAScript 6 was renamed to ECMAScript 2015.  During this talk I'll use ECMAScript 2015 and ECMAScript 6 interchangeably.
+          </aside>
+        </section>
+
+        <section data-background="#f5da55" data-background-transition="fade" data-transition="zoom-in zoom-out">
+          <a href="http://babeljs.io/"><img src="babel-logo.svg" class="no-style"></a>
+          <h3>Use next generation JavaScript, today.</h3>
+          <aside class="notes" data-markdown>
+            This new language spec isn't supported by browsers, but you **can** start using it today.
+
+            You just need to use Babel.  Babel allows you to compile your ES6 code down to ES5 code, which is understood by all modern web browsers.
           </aside>
         </section>
 
         <section>
-          <h2>Lorem ipsum dolor</h2>
-          <ul>
-            <li>A thing</li>
-            <li>Another thing</li>
-          </ul>
-
+          <h2>Let</h2>
+          <p>
+            <pre class="javascript es5"><code data-trim>
+// var: function scoping, variables are hoisted
+var array = [];
+console.log(i); // prints undefined
+for (var i = 0; i < 10; i++) {
+  array.push(Math.random());
+}
+console.log(i);  // prints 10
+            </code></pre>
+          </p>
+          <p>
+            <pre class="javascript es6"><code data-trim>
+// let: block scoping, no hoisting
+let array = [];
+console.log(i);  // ReferenceError
+for (let i = 0; i < 10; i++) {
+  array.push(Math.random());
+}
+console.log(i);  // ReferenceError
+            </code></pre>
+          </p>
           <aside class="notes" data-markdown>
-            Say something here.
+            You can now use "let" instead of "var" to define variables.  Unlike `var`, `let` uses function-level scoping and does **not** hoist variables.
+
+            I **highly** recommend you switch all uses of "var" to "let".
+
+            We'll be using `let` in the rest of our code examples.
           </aside>
         </section>
 
+        <section>
+          <section>
+            <h2>Template Strings</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+var pageNumber = "( " + getCount() + " / " + pageTotal + " )";
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+let pageNumber = `( ${getCount()} / ${pageTotal} )`;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              If you have ever tried to stick a variable inside a string in JavaScript, you'll know it requires concatenation.  Look at all those plus signs and quotes.
+
+              With template strings, you can include your variables right inside your string.  Just use backticks and you've made a template string.
+            </aside>
+          </section>
+          <section>
+            <h2>Template Strings</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+var poem = [
+  "JavaScript = fun",
+  "Uncaught ReferenceError",
+  "fun is not defined"
+].join("\n");
+
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+let poem = `JavaScript = fun
+Uncaught ReferenceError
+help is not defined`;
+
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Template strings also support multi-line strings.
+
+              Previously you may have used string concatenation or the Array `join` method to make multi-line strings.  Now you can just use template strings.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <h2>Methods</h2>
+          <p>
+          <pre class="javascript es5"><code data-trim>
+var Duck = Backbone.Model.extend({
+  name: function name() {
+    return "duck";
+  },
+  sound: function sound() {
+    return "quack";
+  }
+});
+          </code></pre>
+          </p>
+          <p>
+          <pre class="javascript es6"><code data-trim>
+let Duck = Backbone.Model.extend({
+  name() {
+    return "duck";
+  },
+  sound() {
+    return "quack";
+  }
+});
+
+          </code></pre>
+          </p>
+          <aside class="notes" data-markdown>
+            With the new method syntax, you can remove a lot of the syntax cruft when defining methods.  This is great for those of you using an MVC framework.
+
+            Notice the lack of the word function.  Also note that the functions in these examples are named, not anonymous.
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>Fat Arrows</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+promise.then(function (data) {
+  return data.response;
+}).display();
+            </code></pre>
+            </p>
+            <p>
+            <pre class="javascript es6"><code data-trim>
+promise.then(data => data.response).display();
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              JavaScript **loves** callbacks.  Fat arrow functions allow you to make one-off callback functions with a much simpler syntax.
+
+              In this example, we've lost the parenthesis, the curly braces, the return statement, and the word function.  This is so much shorter.
+            </aside>
+          </section>
+          <section>
+            <h2>Fat Arrows & this</h2>
+            <p>
+            <pre class="javascript es5 fade-out"><code data-trim>
+var self = this;
+var getValue = function () {
+  return self.value;
+});
+            </code></pre>
+            </p>
+            <p>
+            <pre class="javascript es6"><code data-trim>
+let getValue = () => this.value;
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              The `this` variable inside a fat arrow function refers to the same `this` as outside of it.
+
+              No more need to make `self` or `that` variables and no need to worry about function binding.
+            </aside>
+          </section>
+          <section>
+            <h2>Fat Arrows</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+events.sort(function (e1, e2) {
+  var d1 = new Date(e1.startDate);
+  var d2 = new Date(e2.startDate);
+  return d1 - d2;
+});
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+events.sort((e1, e2) => {
+  let d1 = new Date(e1.startDate);
+  let d2 = new Date(e2.startDate);
+  return d1 - d2;
+});
+              </code></pre>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Destructuring Arrays</h3>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+var numbers = [1, 4, 2, 3];
+var x = numbers[0];
+var y = numbers[1];
+var z = numbers[2];
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+let numbers = [1, 4, 2, 3];
+let [x, y, z] = numbers;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Grabbing a sequence of elements out of an array used to be awkward in JavaScript.
+
+              With array destructuring, it's really easy.
+
+              This syntax works on anything you can iterate over.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Object Destructuring</h3>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+var emoji = {category: "people", char: "😁", name: "smile"};
+var char = emoji.char;
+var name = emoji.name;
+var category = emoji.category;
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+let emoji = {category: "people", char: "😁", name: "smile"};
+let {name, category, char} = emoji;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              I just showed you array destructuring.  We have a new object destructuring syntax now too.
+
+              This new syntax allows you to assign multiple variables to the values of multiple attributes of an object.
+            </aside>
+          </section>
+          <section>
+            <h3>Object Restructuring</h3>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+function makeEmoji(name, char, category) {
+  return {name: name, char: char, category: category};
+}
+              </code></pre>
+            </p>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+function makeEmoji(name, char, category) {
+  return {name, char, category};
+}
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              I just showed you array destructuring.  We have a new object destructuring syntax now too.
+
+              This new syntax allows you to assign multiple variables to the values of multiple attributes of an object.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <h3>For..Of</h3>
+          <p>
+            <pre class="javascript es5"><code data-trim>
+var coordinates = [{x: 1, y: 4}, {x: 3, y: 3}, {x: 2, y: 2}];
+var timesAtHome = 0;
+var c;
+
+for (var i = 0; i < coordinates.length; i++) {
+  c = coordinates[i];
+  if (c.x === 3 && c.y === 3) {
+    timesAtHome += 1;
+  }
+}
+            </code></pre>
+          </p>
+          <p>
+            <pre class="javascript es6"><code data-trim>
+let coordinates = [{x: 1, y: 4}, {x: 3, y: 3}, {x: 2, y: 2}];
+let timesAtHome = 0;
+
+for (let {x, y} of coordinates) {
+  if (x === 3 && y === 3) {
+    timesAtHome += 1;
+  }
+}
+            </code></pre>
+          </p>
+          <aside class="notes" data-markdown>
+            Let's loop through an array of coordinates and count the number of times we visit our home base.  We'll use a variable ``i`` as a counter, starting it at 0, and incrementing it after each loop.  We'll end the looping when ``i`` equals the length of the array.  Each time we loop, we'll assign ``c`` to the ``i``th element of our array.  When ``c.x`` and ``c.y`` are both 3 then we'll increment ``timesAtHome``.
+
+            Let's loop through an array of coordinates and count the number of times we visit our home base.  We'll loop over each element of the array, getting the ``x`` and ``y`` attributes from it.  When ``x`` and ``y`` are both 3 we'll increment ``timesAtHome``.
+
+            This new "for of" syntax, combined with object destructuring, makes our code much shorter.
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>Rest</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+function say(phrase, ...folks) {
+  folks.forEach(function (folk) {
+    console.log(folk + ' said "' + phrase + '"');
+  });
+}
+            </code></pre>
+            </p>
+            <p>
+            <pre class="javascript es6"><code data-trim>
+function say(phrase, ...folks) {
+  folks.forEach(folk => console.log(`${folk} said "${phrase}"`));
+}
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              The *rest* operator is kind of like Ruby's splat operator.
+
+              When defining a function, we can use the rest operator (notated by three dots) to capture the rest of our function arguments.
+            </aside>
+          </section>
+          <section>
+            <h2>Spread</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+var people = ["Bigelow", "Quil", "Trady Blix", "Lara"]
+shout.apply(undefined, "hello world", people)
+            </code></pre>
+            </p>
+            <p>
+            <pre class="javascript es6"><code data-trim>
+let people = ["Bigelow", "Quil", "Trady Blix", "Lara"];
+shout("hello world", ...people);
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              The spread operator is also like the splat operator.
+
+              When calling a function, we can use the spread operator to place an array of items into *separate* arguments in a function call.
+            </aside>
+          </section>
+          <section>
+            <h2>Capture Remaining Values</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+var numbers = [1, 2, 3, 4];
+var first = numbers[0];
+var remaining = numbers.slice(1);
+            </code></pre>
+            <pre class="javascript es6"><code data-trim>
+var numbers = [1, 2, 3, 4];
+var [first, ...remaining] = numbers;
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              You can combine the spread operator with iterable unpacking to capture remaining values in an array.
+
+              For example here the variable `remaining` would be the array `[2, 3, 4]`.
+            </aside>
+          </section>
+          <section>
+            <h2>Combine Arrays</h2>
+            <p>
+            <pre class="javascript es5"><code data-trim>
+var first = [1, 2];
+var second = [3, 4];
+var combined = [].concat(first, second);
+            </code></pre>
+            <pre class="javascript es6"><code data-trim>
+var first = [1, 2];
+var second = [3, 4];
+var combined = [...first, ...second];
+            </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              You can also use the spread operator to unpack one array inside of another array.  This allows us to combine arrays easily.
+
+              So in this example `combined` would be the array `[1, 2, 3, 4]`.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <h2>Default Arguments</h2>
+          <p>
+          <pre class="javascript es5"><code data-trim>
+function greet(name) {
+  name = name || 'there';
+  console.log('Hello ' + name + '!');
+}
+          </code></pre>
+          </p>
+          <p>
+          <pre class="javascript es6"><code data-trim>
+function greet(name='there') {
+  console.log(`Hello ${name}!`);
+}
+          </code></pre>
+          </p>
+          <aside class="notes" data-markdown>
+            JavaScript functions can now have default argument values.
+
+            This **does not** mean JavaScript has keyword arguments.  It doesn't.  These are just default values for positional arguments.
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>Example 1: Before</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  // ...
+  dragEnter: function dragEnter() {
+    Ember.run(function () {
+      this.incrementProperty('hoverCounter')
+    });
+  },
+  dragLeave: function dragEnter() {
+    Ember.run(function () {
+      this.decrementProperty('hoverCounter')
+    });
+  },
+  // ...
+});
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+          <section>
+            <h2>Example 1: After</h2>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  // ...
+  dragEnter() {
+    Ember.run(() => this.incrementProperty('hoverCounter'));
+  },
+  dragLeave() {
+    Ember.run(() => this.decrementProperty('hoverCounter'));
+  },
+  // ...
+});
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Example 2: Before</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+actions: {
+  addFile: function addFile (data) {
+    var file = data.file;
+    var name = data.fileName;
+    var password = data.password;
+    var uploader = Uploader.create();
+    uploader.upload(name, file).then(function () {
+      this.sendAction('fileUploadedAction', {
+      file: file,
+      password: password,
+    });
+    }.bind(this));
+  },
+}
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+          <section>
+            <h2>Example 2: After</h2>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+actions: {
+  addFile({file, fileName, password}) {
+    let uploader = Uploader.create();
+    uploader.upload(fileName, file).then(() => {
+      this.sendAction('fileUploadedAction', {file, password});
+    });
+  },
+}
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Example 3: Before</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  // ...
+  flashCopyMessage: function(copied, char) {
+    var flashMessages = Ember.get(this, 'flashMessages');
+    var charHTML = '<span class="emoji-text">' + char + '</span>';
+    flashMessages.clearMessages();
+    if (copied) {
+      flashMessages.success('Copied ' + charHTML);
+    } else {
+      flashMessages.danger("Couldn't copy " + charHTML);
+    }
+  },
+});
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+          <section>
+            <h2>Example 3: After</h2>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  // ...
+  flashCopyMessage(copied, char) {
+    const flashMessages = Ember.get(this, 'flashMessages');
+    const charHTML = `<span class="emoji-text">${char}</span>`;
+    flashMessages.clearMessages();
+    if (copied) {
+      flashMessages.success(`Copied ${charHTML}`);
+    } else {
+      flashMessages.danger(`Couldn't copy ${charHTML}`);
+    }
+  },
+});
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Example 4: Before</h2>
+            <p>
+              <pre class="javascript es5"><code data-trim>
+encryptFile: function () {
+  var promise = new Ember.RSVP.Promise(function (resolve, reject) {
+    var key = this.get('key');
+    readFile(this.get('file')).then(function (file) {
+      file.data = encrypt(key, file.data);
+      this.sendAction('encryptedAction', {file: file, key: key});
+      resolve(file);
+    }).catch(function (event) {
+      reject('An error occurred reading the file.');
+    });
+  });
+  return DS.PromiseObject.create({promise: promise});
+},
+            </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+          <section>
+            <h2>Example 4: After</h2>
+            <p>
+              <pre class="javascript es6"><code data-trim>
+encryptFile() {
+  let promise = new Ember.RSVP.Promise((resolve, reject) => {
+    let key = this.get('key');
+    readFile(this.get('file')).then(file => {
+      file.data = encrypt(key, file.data);
+      this.sendAction('encryptedAction', {file, key});
+      resolve(file);
+    }).catch(event => {
+      reject('An error occurred reading the file.');
+    });
+  });
+  return DS.PromiseObject.create({promise});
+},
+              </code></pre>
+            </p>
+
+            <aside class="notes" data-markdown>
+              Say something here.
+            </aside>
+          </section>
+        </section>
+
+
         <section data-transition="zoom-in slide-out">
-          <h3>Something</h3>
+          <h3>ES6 Tools for Ember-CLI</h3>
+          <ul>
+            <li><a href="https://github.com/dockyard/styleguides/blob/master/javascript.md">Dockyard JavaScript Style Guide</a>: Uses ES6</li>
+            <li><a href="https://github.com/dockyard/styleguides/blob/master/ember.md">Dockyard JavaScript Ember Guide</a>: Uses Ember-CLI</li>
+            <li><a href="https://github.com/dockyard/ember-suave">Ember Suave</a>: Enforce DockYard style guides</li>
+            <li><a href="https://github.com/jonathanKingston/ember-cli-eslint">Ember-CLI-ESLint</a>: Allows enforcing ES6-isms</li>
+          </ul>
           <aside class="notes" data-markdown>
             Something
+          </aside>
+        </section>
+
+        <section data-background="#f5da55" data-background-transition="fade" data-transition="zoom-in zoom-out">
+          <h1>Go Forth and Babel</h1>
+          <p>Learn ES2015: <a href="https://babeljs.io/docs/learn-es2015/">https://babeljs.io/docs/learn-es2015/</a></p>
+          <p>Try it out: <a href="http://babeljs.io/repl/">http://babeljs.io/repl</a></p>
+          <aside class="notes" data-markdown>
+            Okay.  I have a mission for you now.
+
+            After you go home tonight I want you all to go to Babel website and try it out.  Type in some code using the new JavaScript syntax and see what it will convert it to.  If you don't have time tonight, try it out this weekend.
+
+            You can also go to trey.in/everyday-es6-demo to see how Babel transpiles the ES6 code examples in this talk.
+
+            Don't worry, I'll post a link to my slides to Meetup.
           </aside>
         </section>
 

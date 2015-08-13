@@ -138,26 +138,6 @@ body {
   padding: 10px;
 }
 
-pre.python code {
-  box-sizing: border-box;
-  background-image: url('../../python-logo.svg');
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: contain;
-  background-size: 60px auto;
-  min-height: 70px;
-}
-
-pre.javascript code {
-  box-sizing: border-box;
-  background-image: url('../../js-logo.svg');
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: contain;
-  background-size: 60px auto;
-  min-height: 70px;
-}
-
 .reveal code {
   font-family: monospace; }
 
@@ -308,3 +288,26 @@ section.has-dark-background a:hover {
  *********************************************/
 .reveal .slide-number {
   color: #630FB7; }
+
+
+/* ES Talk Customizations */
+pre.es5 code {
+  box-sizing: border-box;
+  background-image: url('../../js-logo.svg');
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: contain;
+  background-size: 50px auto;
+  min-height: 70px;
+}
+
+pre.es6 code {
+  box-sizing: border-box;
+  background-image: url('../../babel-logo.svg');
+  background-repeat: no-repeat;
+  background-position: right 15px;
+  background-size: contain;
+  background-size: 60px auto;
+  min-height: 70px;
+}
+
