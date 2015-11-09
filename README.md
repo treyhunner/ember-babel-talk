@@ -1,3 +1,3 @@
-# Lightning Talk: Sample Talk
+# Lightning Talk: How to Babel
 
-Talk given by Trey Hunner on January 1, 2100 at the San Diego JavaScript meetup.
+Talk given by Trey Hunner on August 12, 2015 at the San Diego Ember meetup.
